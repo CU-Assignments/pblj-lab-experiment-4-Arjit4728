@@ -1,16 +1,113 @@
 Experiment 4.1: Employee Management System
 
-The Employee Management System is a simple Java-based application that uses ArrayList to manage employee records. The system allows users to perform the following operations:
+import java.util.ArrayList;
+import java.util.Scanner;
 
-Add Employee → Store Employee ID, Name, and Salary.
+class Employee {
+    int id;
+    String name;
+    double salary;
 
-Update Employee → Modify employee details based on their ID.
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
 
-Remove Employee → Delete an employee using their ID.
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Salary: " + salary;
+    }
+}
 
-Search Employee → Find employees by ID or Name.
+public class EmployeeManagementSystem {
+    private static ArrayList<Employee> employees = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
 
-Display All Employees → Show a complete list of employees.
+    public static void addEmployee(int id, String name, double salary) {
+        for (Employee emp : employees) {
+            if (emp.id == id) {
+                System.out.println("Error: Employee with ID " + id + " already exists.");
+                return;
+            }
+        }
+        employees.add(new Employee(id, name, salary));
+        System.out.println("Employee Added: ID=" + id + ", Name=" + name + ", Salary=" + salary);
+    }
+
+    public static void updateEmployee(int id, double newSalary) {
+        for (Employee emp : employees) {
+            if (emp.id == id) {
+                emp.salary = newSalary;
+                System.out.println("Employee ID " + id + " updated successfully.");
+                return;
+            }
+        }
+        System.out.println("Employee ID " + id + " not found.");
+    }
+
+    public static void removeEmployee(int id) {
+        employees.removeIf(emp -> {
+            if (emp.id == id) {
+                System.out.println("Employee ID " + id + " removed successfully.");
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public static void searchEmployeeById(int id) {
+        for (Employee emp : employees) {
+            if (emp.id == id) {
+                System.out.println("Employee Found: " + emp);
+                return;
+            }
+        }
+        System.out.println("Employee ID " + id + " not found.");
+    }
+
+    public static void displayEmployees() {
+        if (employees.isEmpty()) {
+            System.out.println("No employees found.");
+        } else {
+            for (Employee emp : employees) {
+                System.out.println(emp);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // Test Case 1: No Employees Initially
+        System.out.println("Test Case 1: Display Employees (No Employees Initially)");
+        displayEmployees();
+
+        // Test Case 2: Add Employees
+        System.out.println("\nTest Case 2: Add Employees");
+        addEmployee(101, "Anish", 50000);
+        addEmployee(102, "Bobby", 60000);
+
+        // Test Case 3: Update Employee Salary
+        System.out.println("\nTest Case 3: Update Employee Salary");
+        updateEmployee(101, 55000);
+
+        // Test Case 4: Search Employee by ID
+        System.out.println("\nTest Case 4: Search Employee by ID");
+        searchEmployeeById(102);
+
+        // Test Case 5: Remove Employee
+        System.out.println("\nTest Case 5: Remove Employee");
+        removeEmployee(101);
+
+        // Test Case 6: Display All Employees
+        System.out.println("\nTest Case 6: Display All Employees");
+        displayEmployees();
+
+        // Test Case 7: Adding Duplicate Employee ID
+        System.out.println("\nTest Case 7: Adding Duplicate Employee ID");
+        addEmployee(101, "Charlie", 70000);
+    }
+}
+
 
 Test Cases
 
